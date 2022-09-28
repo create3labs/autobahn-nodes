@@ -75,6 +75,7 @@ if [ ! -f "${workdir}/nodes/archive/.env"  ]; then
 fi
 
 source .env;
+echo $NETWORK;
 
 docker pull ghcr.io/rocknitive/geth_c3:main
 
