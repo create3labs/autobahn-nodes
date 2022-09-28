@@ -25,6 +25,11 @@ if [ -z ${HOME+x} ]; then
   exit 1;
 fi
 
+NODE_TYPE=$1;
+if [ -z ${NODE_TYPE+x} ]; then
+  NODE_TYPE="member";
+fi
+
 DATA_DIR=${HOME}/data/${NETWORK};
 CONFIG_DIR=${HOME}/config/${NETWORK};
 
@@ -43,36 +48,43 @@ if [ ! -f "${CONFIG_DIR}/genesis.json" ]; then
   exit 1;
 fi
 
+# fetch latest image
+docker pull ghcr.io/rocknitive/geth_c3:main
+
 cd "${workdir}";
 read -r -p "Stop everything before restarting (y/n)?" STOP_ALL;
 if [ "$STOP_ALL" = "y" ]; then
   $compose_cmd down --remove-orphans;
 fi
 
-read -r -p "Start a member node? (y/n)?" START_MEMBERNODE;
-if [ "$START_MEMBERNODE" = "y" ]; then
-    if [ ! -f "${workdir}/nodes/member/.env" ]; then
-      echo "${workdir}/nodes/member/.env missing. Please run the init.sh script first...";
-      exit 1;
-    fi
-
-    $compose_cmd --profile service-node up -d;
-    echo "Ok. Service Node is running...";
-    exit 0;
-else
-    echo "Ok. Next...";
+if [ ! -f "${workdir}/nodes/${NODE_TYPE}/.env" ]; then
+  echo "${workdir}/nodes/${NODE_TYPE}/.env missing. Please run the init.sh script first...";
+  exit 1;
 fi
 
-read -r -p "Start a rpc node? (y/n)?" START_RPCNODE;
-if [ "$START_RPCNODE" = "y" ]; then
-    if [ ! -f "${workdir}/nodes/service/.env" ]; then
-      echo "${workdir}/nodes/service/.env missing. Please run the init.sh script first...";
-      exit 1;
-    fi
-
+case "$NODE_TYPE" in
+"boot")
+    $compose_cmd --profile bootnode up -d;
+    echo "Boot Node is running...";
+    ;;
+"member")
+    $compose_cmd --profile member-node up -d;
+    echo "Member Node is running...";
+    ;;
+"service")
     $compose_cmd --profile service-node up -d;
-    echo "Ok. Service Node is running...";
-    exit 0;
-else
-    echo "Ok. Next...";
-fi
+    echo "Service Node is running...";
+    ;;
+"signer")
+    $compose_cmd --profile signer-node up -d;
+    echo "Signer Node is running...";
+    ;;
+"archive")
+    $compose_cmd --profile archive-node up -d;
+    echo "Archive Node is running...";
+    ;;
+*)
+    echo "NODE_TYPE ${NODE_TYPE} is unknown.";
+    exit 1;
+    ;;
+esac

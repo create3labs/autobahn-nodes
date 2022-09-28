@@ -81,6 +81,15 @@ docker pull ghcr.io/rocknitive/geth_c3:main
 # Set the correct rights (For docker setup)
 $compose_cmd run init;
 
+IP_ADDRESS=$(ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}');
+if [[ ! $IP_ADDRESS =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} ]]; then
+    echo "Could not read IP_ADDRESS from ifconfig. This was not intended.";
+    exit 1;
+fi
+
+echo "COPY the IP_ADDRESS to your ${workdir}/nodes/.env as STATIC_BOOTNODE_IP value...";
+sed -i "/STATIC_BOOTNODE_IP.*/cSTATIC_BOOTNODE_IP=$IP_ADDRESS" ${workdir}/nodes/.env;
+
 echo "We need a genesis.json...";
 if [ ! -f "${CONFIG_DIR}/genesis.json"  ]; then
   echo "Copying the autobahn-genesis.json to ${CONFIG_DIR}/genesis.json...";

@@ -1,5 +1,5 @@
 x-docker-data: &geth-node
-  image: "basenode:latest"
+  image: "rocknitive/geth_c3:main"
   restart: unless-stopped
   network_mode: host
   volumes:
