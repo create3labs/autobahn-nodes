@@ -9,18 +9,9 @@ services:
       - |
         chown -R 1000:1000 /data
 
-        echo "done grany data directory permission"
+        echo "done granting data directory permission"
     volumes:
       - data:/data
-
-        # geth-builder:
-        # profiles: [ "cli", "full-blockchain", "signer-node", "bootnode", "member-node", "archive-node", "service-node" ]
-        # image: alpine
-        #build:
-        #context: ..
-        #dockerfile: docker/builder/Dockerfile
-        #container_name: geth-builder
-        #restart: "no"
 
   geth-cli:
     profiles: ["cli"]
@@ -33,8 +24,6 @@ services:
     volumes:
       - data:/data
       - config:/config
-#    networks:
-#      - node-network
 
 volumes:
   config:
@@ -42,14 +31,10 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: ${MOUNT_DIR}/config/mainnet
+      device: ${MOUNT_DIR}/config/${NETWORK}
   data:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: ${MOUNT_DIR}/data/mainnet
-
-#networks:
-#  node-network:
-#    driver: bridge
+      device: ${MOUNT_DIR}/data/${NETWORK}

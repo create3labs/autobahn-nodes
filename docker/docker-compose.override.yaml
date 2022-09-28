@@ -5,8 +5,6 @@ x-docker-data: &geth-node
   volumes:
     - data:/data
     - config:/config
-#  networks:
-#    - node-network
 
 services:
   boot-node:
@@ -16,9 +14,6 @@ services:
     env_file:
       - nodes/.env
       - nodes/boot/.env
-#    ports:
-#      - 30310:30310
-#      - 30310:30310/udp
 
   signer-node:
     <<: *geth-node
@@ -27,9 +22,6 @@ services:
     env_file:
       - nodes/.env
       - nodes/signer/.env
-#    ports:
-#      - 30311:30311
-#      - 30311:30311/udp
 
   member-node:
     <<: *geth-node
@@ -40,9 +32,6 @@ services:
       - nodes/member/.env
     build:
       dockerfile: nodes/member/Dockerfile
-#    ports:
-#      - 30312:30312
-#      - 30312:30312/udp
 
   archive-node:
     <<: *geth-node
@@ -51,9 +40,6 @@ services:
       - nodes/.env
       - nodes/archive/.env
     container_name: archive-node
-#    ports:
-#      - 30313:30313
-#      - 30313:30313/udp
 
   service-node:
     <<: *geth-node
@@ -62,8 +48,3 @@ services:
     env_file:
       - nodes/.env
       - nodes/service/.env
-#    ports:
-#      - 8545:8545
-#      - 8546:8546
-#      - 30314:30314
-#      - 30314:30314/udp
