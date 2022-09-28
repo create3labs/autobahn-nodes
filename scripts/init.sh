@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eEuo pipefail;
+set -eEuox pipefail;
 
 ( docker compose version 2>&1 || docker-compose version 2>&1 ) | grep -q v2 || { echo "docker compose v2 is required to run this script"; exit 1; };
 compose_cmd="$(docker compose version 2>&1 | grep -q v2 && echo 'docker compose' || echo 'docker-compose')";
@@ -33,7 +33,7 @@ fi
 echo "CONFIG_DIR ${CONFIG_DIR}...";
 if [ ! -d "${CONFIG_DIR}"  ]; then
   echo "Creating config dir...";
-  mkdir ${CONFIG_DIR};
+  mkdir -p ${CONFIG_DIR};
 fi
 
 workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../docker" &> /dev/null && pwd )";
@@ -75,6 +75,8 @@ if [ ! -f "${workdir}/nodes/archive/.env"  ]; then
 fi
 
 source .env;
+
+docker pull ghcr.io/rocknitive/geth_c3:main
 
 # Set the correct rights (For docker setup)
 $compose_cmd run init;
