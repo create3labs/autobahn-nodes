@@ -17,7 +17,7 @@ source .env;
 
 if [ -z ${NETWORK+x} ]; then
   echo "setting network to mainnet as default..."
-  export NETWORK=a1;
+  export NETWORK=autobahn;
 fi
 
 if [ -z ${HOME+x} ]; then
