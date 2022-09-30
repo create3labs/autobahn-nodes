@@ -21,6 +21,10 @@ if [ -z ${HOME+x} ]; then
   exit 1;
 fi
 
+if [ -z ${INTERFACE+x} ]; then
+  INTERFACE=eth0;
+fi
+
 DATA_DIR=${HOME}/data/${NETWORK};
 CONFIG_DIR=${HOME}/config/${NETWORK};
 
@@ -85,7 +89,7 @@ docker pull ghcr.io/rocknitive/geth_c3:main
 # Set the correct rights (For docker setup)
 $compose_cmd run init;
 
-IP_ADDRESS=$(ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}');
+IP_ADDRESS=$(ip -4 addr show ${INTERFACE} | grep -oP '(?<=inet\s)\d+(\.\d+){3}');
 if [[ ! $IP_ADDRESS =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} ]]; then
     echo "Could not read IP_ADDRESS from ifconfig. This was not intended.";
     exit 1;
