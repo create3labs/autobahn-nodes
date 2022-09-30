@@ -78,9 +78,6 @@ if [ ! -f "${workdir}/nodes/archive/.env"  ]; then
   cp ${workdir}/nodes/archive/.env.example ${workdir}/nodes/archive/.env;
 fi
 
-echo "Copying the ${workdir}/../*-nodes.json to ${DATA_DIR}...";
-cp ${workdir}/../*-nodes.json ${DATA_DIR};
-
 source .env;
 echo $NETWORK;
 
