@@ -100,7 +100,6 @@ if [ ! -f "${CONFIG_DIR}/genesis.json"  ]; then
   echo "Copying the autobahn-genesis.json to ${CONFIG_DIR}/genesis.json...";
   cp ${workdir}/../autobahn-genesis.json ${CONFIG_DIR}/genesis.json;
   echo "It is necessary that all nodes of ONE chain use the SAME genesis file...";
-  exit 1;
 fi
 
 sleep 1;
