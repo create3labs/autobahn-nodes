@@ -64,23 +64,23 @@ fi
 
 case "$NODE_TYPE" in
 "boot")
-    $compose_cmd --profile bootnode up -d;
+    $compose_cmd --profile boot up -d;
     echo "Boot Node is running...";
     ;;
 "member")
-    $compose_cmd --profile member-node up -d;
+    $compose_cmd --profile member up -d;
     echo "Member Node is running...";
     ;;
 "service")
-    $compose_cmd --profile service-node up -d;
+    $compose_cmd --profile service up -d;
     echo "Service Node is running...";
     ;;
 "signer")
-    $compose_cmd --profile signer-node up -d;
+    $compose_cmd --profile signer up -d;
     echo "Signer Node is running...";
     ;;
 "archive")
-    $compose_cmd --profile archive-node up -d;
+    $compose_cmd --profile archive up -d;
     echo "Archive Node is running...";
     ;;
 *)

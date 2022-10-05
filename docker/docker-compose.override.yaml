@@ -7,44 +7,44 @@ x-docker-data: &geth-node
     - config:/config
 
 services:
-  boot-node:
+  boot:
     <<: *geth-node
-    container_name: boot-node
-    profiles: [ "bootnode", "full-blockchain" ]
+    container_name: boot
+    profiles: [ "boot", "full-blockchain" ]
     env_file:
       - nodes/.env
       - nodes/boot/.env
 
-  signer-node:
+  signer:
     <<: *geth-node
-    container_name: signer-node
-    profiles: [ "signer-node", "full-blockchain" ]
+    container_name: signer
+    profiles: [ "signer", "full-blockchain" ]
     env_file:
       - nodes/.env
       - nodes/signer/.env
 
-  member-node:
+  member:
     <<: *geth-node
-    profiles: [ "member-node" ]
-    container_name: member-node
+    profiles: [ "member" ]
+    container_name: member
     env_file:
       - nodes/.env
       - nodes/member/.env
     build:
       dockerfile: nodes/member/Dockerfile
 
-  archive-node:
+  archive:
     <<: *geth-node
-    profiles: [ "archive-node" ]
+    profiles: [ "archive" ]
+    container_name: archive
     env_file:
       - nodes/.env
       - nodes/archive/.env
-    container_name: archive-node
 
-  service-node:
+  service:
     <<: *geth-node
-    container_name: service-node
-    profiles: [ "service-node", "full-blockchain" ]
+    container_name: service
+    profiles: [ "service", "full-blockchain" ]
     env_file:
       - nodes/.env
       - nodes/service/.env
