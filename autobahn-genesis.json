@@ -14,7 +14,7 @@
     "londonBlock": 0,
     "parisBlock": 0,
     "clique": {
-      "period": 5,
+      "period": 15,
       "epoch": 30000
     }
   },
