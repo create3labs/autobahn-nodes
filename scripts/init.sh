@@ -79,7 +79,7 @@ if [ ! -f "${workdir}/nodes/archive/.env"  ]; then
 fi
 
 source .env;
-docker pull ghcr.io/rocknitive/geth_c3:main
+docker pull "${DOCKER_IMAGE}";
 
 # Set the correct rights (For docker setup)
 $compose_cmd run init;

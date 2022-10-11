@@ -1,5 +1,5 @@
 x-docker-data: &geth-node
-  image: "ghcr.io/rocknitive/geth_c3:main"
+  image: ${DOCKER_IMAGE}
   restart: unless-stopped
   network_mode: host
   volumes:

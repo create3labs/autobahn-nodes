@@ -49,7 +49,7 @@ if [ ! -f "${CONFIG_DIR}/genesis.json" ]; then
 fi
 
 # fetch latest image
-docker pull ghcr.io/rocknitive/geth_c3:main
+docker pull "${DOCKER_IMAGE}";
 
 cd "${workdir}";
 read -r -p "Stop everything before restarting (y/n)?" STOP_ALL;
