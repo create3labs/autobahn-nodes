@@ -57,16 +57,16 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: ${MOUNT_DIR}/data/${NETWORK}/blockscout/redis-data
+      device: ${MOUNT_DIR}/data/blockscout/redis-data
   blockscout-postgres-data:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: ${MOUNT_DIR}/data/${NETWORK}/blockscout/postgres-data
+      device: ${MOUNT_DIR}/data/blockscout/postgres-data
   blockscout-autobahn-images:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: ./blockscout/autobahn/images
+      device: ${MOUNT_DIR}/autobahn-nodes/docker/blockscout/autobahn/images
