@@ -78,6 +78,17 @@ if [ ! -f "${workdir}/nodes/archive/.env"  ]; then
   cp ${workdir}/nodes/archive/.env.example ${workdir}/nodes/archive/.env;
 fi
 
+if [ ! -f "${workdir}/blockscout/.env"  ]; then
+  echo "Copying the ${workdir}/blockscout/.env.example to ${workdir}/blockscout/.env...";
+  cp ${workdir}/blockscout/.env.example ${workdir}/blockscout/.env;
+fi
+
+if [ ! -f "${workdir}/blockscout/.common-smart-contract-verifier-env"  ]; then
+  echo "Copying the ${workdir}/blockscout/.env.example to ${workdir}/blockscout/.common-smart-contract-verifier-env...";
+  cp ${workdir}/blockscout/.common-smart-contract-verifier-env.example ${workdir}/blockscout/.common-smart-contract-verifier-env;
+fi
+
+# source the .env from the current workdir
 source .env;
 docker pull "${DOCKER_IMAGE}";
 
