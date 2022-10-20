@@ -96,8 +96,8 @@ sed -i "/STATIC_BOOTNODE_IP.*/cSTATIC_BOOTNODE_IP=$IP_ADDRESS" ${workdir}/nodes/
 
 echo "We need a genesis.json...";
 if [ ! -f "${CONFIG_DIR}/genesis.json"  ]; then
-  echo "Copying the autobahn-genesis.json to ${CONFIG_DIR}/genesis.json...";
-  cp ${workdir}/../autobahn-genesis.json ${CONFIG_DIR}/genesis.json;
+  echo "Copying the ${NETWORK}-genesis.json to ${CONFIG_DIR}/genesis.json...";
+  cp "${workdir}/../${NETWORK}-genesis.json" "${CONFIG_DIR}/genesis.json";
   echo "It is necessary that all nodes of ONE chain use the SAME genesis file...";
 fi
 
