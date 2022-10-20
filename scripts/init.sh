@@ -11,9 +11,21 @@ run_geth-cli_cmd () {
   $compose_cmd --profile cli run geth-cli "$cmd" $args;
 }
 
+workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../docker" &> /dev/null && pwd )";
+cd "${workdir}";
+
+if [ ! -f "${workdir}/.env"  ]; then
+  echo "Copying the ${workdir}/.env.example to ${workdir}/.env...";
+  cp ${workdir}/.env.example ${workdir}/.env;
+fi
+
+# source the .env from the current workdir
+source .env;
+docker pull "${DOCKER_IMAGE}";
+
 if [ -z ${NETWORK+x} ]; then
   echo "setting network to mainnet as default..."
-  export NETWORK=autobahn;
+  NETWORK=autobahn;
 fi
 
 if [ -z ${HOME+x} ]; then
@@ -40,13 +52,6 @@ if [ ! -d "${CONFIG_DIR}"  ]; then
   mkdir -p ${CONFIG_DIR};
 fi
 
-workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../docker" &> /dev/null && pwd )";
-cd "${workdir}";
-
-if [ ! -f "${workdir}/.env"  ]; then
-  echo "Copying the ${workdir}/.env.example to ${workdir}/.env...";
-  cp ${workdir}/.env.example ${workdir}/.env;
-fi
 
 if [ ! -f "${workdir}/nodes/.env"  ]; then
   echo "Copying the ${workdir}/nodes/.env.example to ${workdir}/nodes/.env...";
@@ -77,10 +82,6 @@ if [ ! -f "${workdir}/nodes/archive/.env"  ]; then
   echo "Copying the ${workdir}/nodes/archive/.env.example to ${workdir}/nodes/archive/.env...";
   cp ${workdir}/nodes/archive/.env.example ${workdir}/nodes/archive/.env;
 fi
-
-# source the .env from the current workdir
-source .env;
-docker pull "${DOCKER_IMAGE}";
 
 # Set the correct rights (For docker setup)
 $compose_cmd run init;
