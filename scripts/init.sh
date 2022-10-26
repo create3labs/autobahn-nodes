@@ -86,7 +86,8 @@ fi
 # Set the correct rights (For docker setup)
 $compose_cmd run init;
 
-IP_ADDRESS=$(ip -4 addr show ${INTERFACE} | grep -oP '(?<=inet\s)\d+(\.\d+){3}');
+#IP_ADDRESS=$(ip -4 addr show ${INTERFACE} | grep -oP '(?<=inet\s)\d+(\.\d+){3}');
+IP_ADDRESS=$(ifconfig "${INTERFACE}" | awk '/inet / {print $2}');
 if [[ ! $IP_ADDRESS =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} ]]; then
     echo "Could not read IP_ADDRESS from ifconfig. This was not intended.";
     exit 1;
